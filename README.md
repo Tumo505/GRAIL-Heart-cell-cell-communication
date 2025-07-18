@@ -50,7 +50,7 @@ To reproduce the analysis in this project:
 
 1. **Clone or Download the Repository**
    ```bash
-   git clone https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication-.git
+   git clone https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication.git
    cd grail-heart
    ```
 
