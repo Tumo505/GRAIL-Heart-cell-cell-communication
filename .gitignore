@@ -1,0 +1,31 @@
+# Ignore raw and processed data
+data/raw/
+data/processed/
+
+# Ignore results (figures, tables, etc.)
+results/
+results/figures/
+results/tables/
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment files
+.env
+.venv/
+venv/
+ENV/
+env/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log
