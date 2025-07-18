@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "GRAIL-Heart: Graph-based Reconstruction of Artificial Intercellular Links (cell_comm module)"
+authors:
+  - family-names: Kgabeng
+    given-names: Tumo
+    affiliation: "Department of Mechanical, Bioresources and Biomedical Engineering, University of South Africa"
+    email: 28346416@mylife.unisa.ac.za
+    orcid: "https://orcid.org/0009-0006-5826-4289"
+  - family-names: Pandelani
+    given-names: Thanyani
+    affiliation: "Department of Mechanical, Bioresources and Biomedical Engineering, University of South Africa"
+    orcid: "https://orcid.org/0000-0003-2107-5194"
+  - family-names: Wang
+    given-names: Lulu
+    affiliation: "Department of Engineering, Reykjavik University"
+    orcid: "https://orcid.org/0000-0001-7466-9522"
+  - family-names: Ngwangwa
+    given-names: Harry
+    affiliation: "Department of Mechanical, Bioresources and Biomedical Engineering, University of South Africa"
+    orcid: "https://orcid.org/0000-0001-5486-8049"
+date-released: 2024-07-19
+version: "1.0.0"
+license: Apache-2.0
+repository-code: "https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication"
+url: "https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication"
+abstract: >
+  The cell_comm module is part of the GRAIL-Heart project, a computational framework for analyzing cell-cell communication in human heart tissue using single-cell RNA sequencing data. It supports the integration of spatial multi-omics and deep learning for cardiac regenerative medicine research.
+keywords:
+  - cell-cell communication
+  - single-cell RNA-seq
+  - graph neural networks
+  - spatial transcriptomics
+  - cardiac regeneration
+  - deep learning
+  - bioinformatics
+

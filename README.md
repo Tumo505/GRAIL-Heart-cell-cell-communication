@@ -95,3 +95,10 @@ For questions or collaboration, please contact Tumo Kgabeng: [28346416@mylife.un
 ## License
 
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+
+## Citation
+See [CITATION.cff](CITATION.cff) for how to cite this work.
+
+> ⚠️ **Research Preview**
+>
+> This repository is part of ongoing academic research. The code, models, and results are under active development and may change. Use with caution. For questions or contributions, please contact [Tumo Kgabeng](mailto:28346416@mylife.unisa.ac.za).
