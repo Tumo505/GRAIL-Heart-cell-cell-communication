@@ -1,31 +1,239 @@
-# Ignore raw and processed data
+# Raw and processed data directories
 data/raw/
 data/processed/
 
-# Ignore results (figures, tables, etc.)
+# Large data files (single-cell, genomics, etc.)
+*.h5ad
+*.h5
+*.hdf5
+*.loom
+*.mtx
+*.tsv
+*.csv
+*.txt
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bai
+*.sam
+*.gtf
+*.gff
+*.bed
+*.bigwig
+*.bw
+
+# Results and intermediate output
 results/
 results/figures/
 results/tables/
+results/*.csv
+results/*.tsv
+results/*.txt
+results/*.json
+results/
+results/communication/
+results/comprehensive_multi_chamber/
+results/cross_chamber_scaled/
+results/full_multi_chamber/
+results/multi_chamber/
 
-# Ignore Jupyter notebook checkpoints
+# Generated figures and plots
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.svg
+*.eps
+*.tiff
+*.bmp
+
+# Analysis output files
+*.pkl
+*.pickle
+*.joblib
+*.npy
+*.npz
+*.rds
+*.RData
+
+# Jupyter notebook checkpoints
 .ipynb_checkpoints/
+*/.ipynb_checkpoints/*
 
-# Ignore Python cache and compiled files
+# Python cache and compiled files
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Ignore environment files
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Virtual environments
 .env
 .venv/
 venv/
 ENV/
 env/
+ENV/
+env.bak/
+venv.bak/
 
-# Ignore OS files
+# Conda environments
+.conda/
+
+# pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE/project files
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# Editor swap/backup files
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# macOS
 .DS_Store
-Thumbs.db
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
-# Ignore logs
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Log files
 *.log
+*.log.*
+logs/
+log/
+
+# R specific files
+.Rhistory
+.RData
+.Ruserdata
+.Rapp.history
+.Rprofile
+.Renviron
+.Rproj.user/
+
+# Large files that might be generated
+*.zip
+*.tar.gz
+*.tar.bz2
+*.rar
+*.7z
+
+# Configuration files with sensitive information
+config.ini
+secrets.json
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Analysis cache
+analysis/*/cache/
+analysis/*/temp/
+
+# Generated documentation
+docs/_build/
+docs/build/
+# End of notebook and script output
+*.out
+
+# Miscellaneous
+*.DS_Store
+# End of Selection

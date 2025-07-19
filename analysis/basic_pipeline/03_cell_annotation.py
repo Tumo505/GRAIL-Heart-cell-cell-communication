@@ -112,7 +112,8 @@ def identify_marker_genes(adata, groupby='leiden', n_genes=25):
 
 def main():
     # Load filtered and normalized data
-    data_path = Path("data/processed/heart_data_filtered_normalized.h5ad")
+    project_root = Path(__file__).parent.parent.parent
+    data_path = project_root / "data/processed/heart_data_filtered_normalized.h5ad"
     adata = sc.read_h5ad(data_path)
     
     # Create results directories
@@ -148,7 +149,7 @@ def main():
     adata = identify_marker_genes(adata)
     
     # Save annotated data
-    adata.write(Path("data/processed/heart_data_annotated.h5ad"))
+    adata.write(project_root / "data/processed/heart_data_annotated.h5ad")
     
     print("Cell annotation complete!")
 

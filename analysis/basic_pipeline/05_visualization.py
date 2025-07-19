@@ -156,9 +156,10 @@ def generate_report(adata, save_path):
 
 def main():
     # Load final data
-    data_path = Path("data/processed/heart_data_communication.h5ad")
+    project_root = Path(__file__).parent.parent.parent
+    data_path = project_root / "data/processed/heart_data_communication.h5ad"
     if not data_path.exists():
-        data_path = Path("data/processed/heart_data_annotated.h5ad")
+        data_path = project_root / "data/processed/heart_data_annotated.h5ad"
     
     adata = sc.read_h5ad(data_path)
     

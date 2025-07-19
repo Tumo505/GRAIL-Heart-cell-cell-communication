@@ -70,7 +70,8 @@ def normalize_data(adata):
 
 def main():
     # Load preprocessed data
-    data_path = Path("data/processed/heart_data_preprocessed.h5ad")
+    project_root = Path(__file__).parent.parent.parent
+    data_path = project_root / "data/processed/heart_data_preprocessed.h5ad"
     adata = sc.read_h5ad(data_path)
     
     # Create results directory
@@ -87,7 +88,7 @@ def main():
     adata = normalize_data(adata)
     
     # Save filtered and normalized data
-    adata.write(Path("data/processed/heart_data_filtered_normalized.h5ad"))
+    adata.write(project_root / "data/processed/heart_data_filtered_normalized.h5ad")
     
     print("Quality control complete!")
 

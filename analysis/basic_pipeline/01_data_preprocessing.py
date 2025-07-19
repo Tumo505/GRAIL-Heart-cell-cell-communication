@@ -61,9 +61,10 @@ def calculate_qc_metrics(adata):
     return adata
 
 def main():
-    # Paths
-    data_path = Path("data/raw/healthy_human_4chamber_map_unnormalized_V3.h5ad")
-    output_path = Path("data/processed/")
+    # Paths - use project root as reference
+    project_root = Path(__file__).parent.parent.parent
+    data_path = project_root / "data/raw/healthy_human_4chamber_map_unnormalized_V3.h5ad"
+    output_path = project_root / "data/processed/"
     output_path.mkdir(parents=True, exist_ok=True)
     
     # Load data
