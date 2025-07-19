@@ -22,8 +22,8 @@ authors:
 date-released: 2024-07-19
 version: "1.0.0"
 license: Apache-2.0
-repository-code: "https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication"
-url: "https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication"
+repository-code: "https://github.com/Tumo505/HeartMap.git"
+url: "https://github.com/Tumo505/HeartMap.git"
 abstract: >
   The human heart is composed of four distinct chambers, each with unique cellular and molecular characteristics. Understanding cell-cell communication within and between these chambers is essential for unraveling cardiac function and disease. Here, we present HeartMAP (Heart Multi-chamber Analysis Platform), a comprehensive spatial framework that integrates single-cell RNA-seq data and advanced computational models to map cardiac cell-cell communication at chamber resolution. Using a dataset of 287,269 cells from healthy human hearts, we identify chamber-specific cell populations, communication networks, and therapeutic targets. Our multi-model approach reveals both shared and unique signaling pathways across chambers, providing a foundation for chamber-specific therapies and precision cardiology.
 keywords:
