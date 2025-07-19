@@ -8,17 +8,17 @@
 
 ## Chamber Composition
 chamber
-- RA    14192
-- LV    13510
-- LA    13186
-- RV     9112
+RA    14192
+LV    13510
+LA    13186
+RV     9112
 
 ## Chamber Proportions
 chamber
-- RA    0.28384
-- LV    0.27020
-- LA    0.26372
-- RV    0.18224
+RA    0.28384
+LV    0.27020
+LA    0.26372
+RV    0.18224
 
 ## Key Findings
 

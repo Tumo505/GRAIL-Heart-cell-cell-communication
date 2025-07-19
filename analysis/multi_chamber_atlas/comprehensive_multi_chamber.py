@@ -113,6 +113,13 @@ chamber_counts.plot(kind='bar', ax=ax1)
 ax1.set_title('Cell Counts by Chamber')
 ax1.set_xlabel('Chamber')
 ax1.set_ylabel('Number of Cells')
+# Annotate bars with count and percentage
+for idx, p in enumerate(ax1.patches):
+    count = chamber_counts.iloc[idx]
+    percent = 100 * count / adata.n_obs
+    ax1.annotate(f'{count}\n{percent:.1f}%',
+                 (p.get_x() + p.get_width() / 2, p.get_height()),
+                 ha='center', va='bottom', fontsize=10, fontweight='bold')
 
 # 2. Chamber proportions
 ax2 = plt.subplot(3, 3, 2)
@@ -132,6 +139,17 @@ ax3.set_ylabel('LA Expression')
 ax3.set_title('RA vs LA Expression Correlation')
 
 # 4. Top markers for each chamber
+# for i, chamber in enumerate(chambers):
+#     if i < 4:  # Only show first 4 chambers
+#         ax = plt.subplot(3, 3, 4 + i)
+#         if not chamber_markers[chamber].empty:
+#             top_10 = chamber_markers[chamber].head(10)
+#             ax.barh(range(len(top_10)), -np.log10(top_10['pvals_adj']))
+#             ax.set_yticks(range(len(top_10)))
+#             ax.set_yticklabels(top_10['names'])
+#             ax.set_xlabel('-log10(adjusted p-value)')
+#             ax.set_title(f'Top Markers - {chamber}')
+
 for i, chamber in enumerate(chambers):
     if i < 4:  # Only show first 4 chambers
         ax = plt.subplot(3, 3, 4 + i)
@@ -142,6 +160,11 @@ for i, chamber in enumerate(chambers):
             ax.set_yticklabels(top_10['names'])
             ax.set_xlabel('-log10(adjusted p-value)')
             ax.set_title(f'Top Markers - {chamber}')
+        else:
+            # Place text in axes coordinates (0.5, 0.5 is center)
+            ax.text(0.5, 0.5, 'No markers found', ha='center', va='center', fontsize=12, transform=ax.transAxes)
+            ax.set_title(f'Top Markers - {chamber}')
+            ax.axis('off')
 
 plt.tight_layout()
 plt.savefig(results_path / "comprehensive_chamber_analysis.png", dpi=300, bbox_inches='tight')
