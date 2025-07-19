@@ -14,33 +14,33 @@ This analysis examines communication patterns across different heart chambers us
 
 ### RA_vs_RV
 - **Expression Correlation**: 0.885
-- **Significant Genes**: 150
-- **Top Differentially Expressed**: C1orf168, ADRA1A, FP325317.1, XIRP2, MIR100HG
+- **Significant Genes**: 2193
+- **Top Differentially Expressed**: NPPA, MYL7, MYL4, MIR100HG, MYH6
 
 ### RA_vs_LA
 - **Expression Correlation**: 0.960
-- **Significant Genes**: 150
-- **Top Differentially Expressed**: SMAD6, AKR1C1, TGM2, GALNT15, MFAP5
+- **Significant Genes**: 1231
+- **Top Differentially Expressed**: MIR100HG, PXDNL, ENG, ASTN2, MTHFD1L
 
 ### RA_vs_LV
 - **Expression Correlation**: 0.874
-- **Significant Genes**: 150
-- **Top Differentially Expressed**: ULK4, SAMHD1, GAS2, MIR100HG, HOOK2
+- **Significant Genes**: 1930
+- **Top Differentially Expressed**: NPPA, MYL7, MYL4, MIR100HG, PDE4D
 
 ### RV_vs_LA
 - **Expression Correlation**: 0.877
-- **Significant Genes**: 150
-- **Top Differentially Expressed**: MFAP5, C1orf168, MYL3, AC011288.2, PDE1A
+- **Significant Genes**: 2028
+- **Top Differentially Expressed**: NEAT1, FHL2, MYH7, PDK4, CD36
 
 ### RV_vs_LV
 - **Expression Correlation**: 0.985
-- **Significant Genes**: 150
-- **Top Differentially Expressed**: RP11-362K2.2, SLC26A3, ADRA1A, ABCC1, BCL6
+- **Significant Genes**: 1572
+- **Top Differentially Expressed**: ZBTB16, NEAT1, PDK4, ACACB, PDE1A
 
 ### LA_vs_LV
 - **Expression Correlation**: 0.870
-- **Significant Genes**: 150
-- **Top Differentially Expressed**: MFAP5, CCDC80, MYL3, GCNT2, FN1
+- **Significant Genes**: 1870
+- **Top Differentially Expressed**: NPPA, MYL7, ELN, MYL4, GSN
 
 ## Key Findings
 
