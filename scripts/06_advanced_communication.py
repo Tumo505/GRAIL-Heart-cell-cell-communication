@@ -70,7 +70,7 @@ def identify_hub_cells(adata, save_path):
     adata.obs['hub_score'] = hub_scores
     
     # Plot hub scores
-    sc.pl.umap(adata, color='hub_score', title='Communication Hub Score')
+    sc.pl.umap(adata, color='hub_score', title='Communication Hub Score', show=False)
     plt.savefig(save_path / "communication_hubs.png", dpi=300, bbox_inches='tight')
     plt.close()
     
@@ -116,18 +116,33 @@ def analyze_pathway_enrichment(adata, save_path):
             
             pathway_scores[pathway] = cell_type_scores
     
-    # Create pathway heatmap
-    pathway_df = pd.DataFrame(pathway_scores).T
-    
-    plt.figure(figsize=(12, 8))
-    sns.heatmap(pathway_df, annot=True, cmap='Blues', fmt='.3f')
-    plt.title('Pathway Activity by Cell Type')
-    plt.tight_layout()
-    plt.savefig(save_path / "pathway_enrichment.png", dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    # Save pathway scores
-    pathway_df.to_csv(save_path / "pathway_scores.csv")
+    # Create pathway heatmap only if we have data
+    if pathway_scores:
+        pathway_df = pd.DataFrame(pathway_scores).T
+        
+        if not pathway_df.empty:
+            plt.figure(figsize=(12, 8))
+            sns.heatmap(pathway_df, annot=True, cmap='Blues', fmt='.3f')
+            plt.title('Pathway Activity by Cell Type')
+            plt.tight_layout()
+            plt.savefig(save_path / "pathway_enrichment.png", dpi=300, bbox_inches='tight')
+            plt.close()
+            
+            # Save pathway scores
+            pathway_df.to_csv(save_path / "pathway_scores.csv")
+        else:
+            print("Warning: No pathway data available for heatmap")
+    else:
+        print("Warning: No pathway genes found in dataset")
+        
+        # Create a simple message plot instead
+        plt.figure(figsize=(8, 6))
+        plt.text(0.5, 0.5, 'No pathway genes found in dataset\n(heart-specific genes not present)', 
+                ha='center', va='center', transform=plt.gca().transAxes, fontsize=12)
+        plt.title('Pathway Enrichment Analysis')
+        plt.axis('off')
+        plt.savefig(save_path / "pathway_enrichment.png", dpi=300, bbox_inches='tight')
+        plt.close()
 
 def temporal_communication_analysis(adata, save_path):
     """Analyze potential temporal aspects of communication"""
@@ -154,7 +169,13 @@ def temporal_communication_analysis(adata, save_path):
     # Calculate communication scores for each time bin
     time_communication = {}
     
-    for time_bin in time_bins.categories:
+    # Get unique time bins (handle both categorical and regular series)
+    if hasattr(time_bins, 'cat'):
+        unique_bins = time_bins.cat.categories
+    else:
+        unique_bins = time_bins.unique()
+    
+    for time_bin in unique_bins:
         time_mask = adata.obs['time_bin'] == time_bin
         if time_mask.sum() > 10:  # Ensure enough cells
             time_expr = adata[time_mask].X.mean(axis=0)

@@ -12,7 +12,7 @@ def find_variable_genes(adata, n_top_genes=2000):
     sc.pp.highly_variable_genes(adata, min_mean=0.0125, max_mean=3, min_disp=0.5, n_top_genes=n_top_genes)
     
     # Plot highly variable genes
-    sc.pl.highly_variable_genes(adata)
+    sc.pl.highly_variable_genes(adata, show=False)
     plt.savefig(Path("results/figures/highly_variable_genes.png"), 
                 dpi=300, bbox_inches='tight')
     plt.close()
@@ -34,7 +34,7 @@ def perform_pca(adata, n_comps=50):
     sc.tl.pca(adata, svd_solver='arpack', n_comps=n_comps)
     
     # Plot PCA
-    sc.pl.pca_variance_ratio(adata, log=True, n_pcs=50)
+    sc.pl.pca_variance_ratio(adata, log=True, n_pcs=50, show=False)
     plt.savefig(Path("results/figures/pca_variance.png"), 
                 dpi=300, bbox_inches='tight')
     plt.close()
@@ -50,10 +50,24 @@ def compute_neighborhood_graph(adata, n_neighbors=10, n_pcs=40):
     return adata
 
 def perform_clustering(adata, resolution=0.5):
-    """Perform Leiden clustering"""
+    """Perform clustering (K-means as fallback if igraph not available)"""
     print("Performing clustering...")
     
-    sc.tl.leiden(adata, resolution=resolution)
+    try:
+        # Try Leiden clustering first
+        sc.tl.leiden(adata, resolution=resolution)
+        print("Used Leiden clustering")
+    except ImportError:
+        # Fallback to K-means clustering if igraph is not available
+        print("igraph not available, using K-means clustering instead")
+        # Use PCA components for K-means
+        n_clusters = 10  # You can adjust this number
+        from sklearn.cluster import KMeans
+        kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+        cluster_labels = kmeans.fit_predict(adata.obsm['X_pca'][:, :20])
+        # Convert to categorical dtype for Scanpy compatibility
+        adata.obs['leiden'] = pd.Categorical(cluster_labels.astype(str))
+        print(f"Used K-means clustering with {n_clusters} clusters")
     
     return adata
 
@@ -85,7 +99,7 @@ def identify_marker_genes(adata, groupby='leiden', n_genes=25):
     sc.tl.rank_genes_groups(adata, groupby, method='wilcoxon')
     
     # Plot marker genes
-    sc.pl.rank_genes_groups(adata, n_genes=n_genes, sharey=False)
+    sc.pl.rank_genes_groups(adata, n_genes=n_genes, sharey=False, show=False)
     plt.savefig(Path("results/figures/marker_genes.png"), 
                 dpi=300, bbox_inches='tight')
     plt.close()
@@ -105,8 +119,11 @@ def main():
     Path("results/figures").mkdir(parents=True, exist_ok=True)
     Path("results/tables").mkdir(parents=True, exist_ok=True)
     
-    # Find highly variable genes using a subset for speed (temporary)
-    adata_subset = adata[:10000, :1000]  # Subset to 10,000 cells, 1,000 genes (the full dataset is ~260,000 cells and ~28,000 genes)
+    # Find highly variable genes using the full dataset
+    # adata = find_variable_genes(adata) // This is the full dataset, use it if you have enough compute resources, otherwise use the below function
+
+    # Subset to 10,000 cells, 1,000 genes (the full dataset is 287,269 cells and 33,694 genes(full dataset), and 262,003 cells and 28,550 genes after filtering)
+    adata_subset = adata[:10000, :1000]  
     adata_subset = find_variable_genes(adata_subset)
 
     # Use the subset for downstream steps (temporary)
