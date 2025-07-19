@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "GRAIL-Heart: Graph-based Reconstruction of Artificial Intercellular Links (cell_comm module)"
+title: "HeartMAP: A Multi-Chamber Spatial Framework for Cardiac Cell-Cell Communication"
 authors:
   - family-names: Kgabeng
     given-names: Tumo
@@ -25,7 +25,7 @@ license: Apache-2.0
 repository-code: "https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication"
 url: "https://github.com/Tumo505/GRAIL-Heart-cell-cell-communication"
 abstract: >
-  The cell_comm module is part of the GRAIL-Heart project, a computational framework for analyzing cell-cell communication in human heart tissue using single-cell RNA sequencing data. It supports the integration of spatial multi-omics and deep learning for cardiac regenerative medicine research.
+  The human heart is composed of four distinct chambers, each with unique cellular and molecular characteristics. Understanding cell-cell communication within and between these chambers is essential for unraveling cardiac function and disease. Here, we present HeartMAP (Heart Multi-chamber Analysis Platform), a comprehensive spatial framework that integrates single-cell RNA-seq data and advanced computational models to map cardiac cell-cell communication at chamber resolution. Using a dataset of 287,269 cells from healthy human hearts, we identify chamber-specific cell populations, communication networks, and therapeutic targets. Our multi-model approach reveals both shared and unique signaling pathways across chambers, providing a foundation for chamber-specific therapies and precision cardiology.
 keywords:
   - cell-cell communication
   - single-cell RNA-seq
@@ -34,4 +34,3 @@ keywords:
   - cardiac regeneration
   - deep learning
   - bioinformatics
-

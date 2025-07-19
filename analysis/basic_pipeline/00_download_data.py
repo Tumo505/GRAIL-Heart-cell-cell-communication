@@ -4,7 +4,9 @@ from pathlib import Path
 
 def download_data():
     """Download the heart dataset"""
-    data_dir = Path("data/raw")
+    # Use project root as reference
+    project_root = Path(__file__).parent.parent.parent
+    data_dir = project_root / "data/raw"
     data_dir.mkdir(parents=True, exist_ok=True)
     
     # Note: You'll need to download this manually from the website

@@ -7,7 +7,7 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
-# Try to import cell communication tools
+# import cell communication tools
 
 # Check Python environment
 import sys
@@ -203,7 +203,8 @@ def analyze_ligand_receptor_pairs(adata, save_path):
 
 def main():
     # Load annotated data
-    data_path = Path("data/processed/heart_data_annotated.h5ad")
+    project_root = Path(__file__).parent.parent.parent
+    data_path = project_root / "data/processed/heart_data_annotated.h5ad"
     adata = sc.read_h5ad(data_path)
     
     # Create results directories
@@ -231,7 +232,7 @@ def main():
     analyze_ligand_receptor_pairs(comm_adata, results_path)
     
     # Save communication analysis results
-    comm_adata.write(Path("data/processed/heart_data_communication.h5ad"))
+    comm_adata.write(project_root / "data/processed/heart_data_communication.h5ad")
     
     print("Cell-cell communication analysis complete!")
 
