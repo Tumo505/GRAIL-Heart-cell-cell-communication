@@ -8,6 +8,7 @@ def run_script(script_path, description):
     print(f"\n{'='*60}")
     print(f"Running: {description}")
     print(f"Script: {script_path}")
+    print(f"Python executable: {sys.executable}")
     print(f"{'='*60}")
     
     try:

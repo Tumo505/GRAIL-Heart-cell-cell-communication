@@ -8,12 +8,25 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Try to import cell communication tools
+
+# Check Python environment
+import sys
+print(f"Python executable: {sys.executable}")
+print(f"Python path: {sys.path[:3]}...")
+
+# Check if LIANA is available
+LIANA_AVAILABLE = False
 try:
+    import liana
     import liana as li
     LIANA_AVAILABLE = True
-except ImportError:
-    LIANA_AVAILABLE = False
-    print("LIANA not available. Install with: pip install liana")
+    print(f"LIANA version {liana.__version__} successfully imported")
+except ImportError as e:
+    print(f"LIANA import failed: {e}")
+    print("Install with: pip install liana")
+except Exception as e:
+    print(f"Unexpected error importing LIANA: {e}")
+    print("Install with: pip install liana")
 
 def prepare_data_for_communication(adata, cell_type_col='leiden'):
     """Prepare data for cell communication analysis"""
@@ -37,19 +50,30 @@ def run_liana_analysis(adata, cell_type_col='leiden'):
     """Run LIANA cell communication analysis"""
     if not LIANA_AVAILABLE:
         print("LIANA not available. Skipping LIANA analysis.")
-        return None
+        return adata
     
     print("Running LIANA analysis...")
     
-    # Run LIANA with multiple methods
-    li.mt.rank_aggregate.by_sample(
-        adata,
-        groupby=cell_type_col,
-        resource_name='consensus',
-        n_perms=100,
-        seed=42,
-        verbose=True
-    )
+    try:
+        # Run LIANA with rank aggregate method
+        li.mt.rank_aggregate.by_sample(
+            adata,
+            groupby=cell_type_col,
+            resource_name='consensus',
+            n_perms=100,
+            seed=42,
+            verbose=True
+        )
+        
+        # Check if results were stored
+        if 'liana_res' in adata.uns:
+            print(f"LIANA analysis completed successfully. Found {len(adata.uns['liana_res'])} interactions.")
+        else:
+            print("LIANA analysis completed but no results found in adata.uns['liana_res']")
+            
+    except Exception as e:
+        print(f"Error running LIANA analysis: {e}")
+        print("Continuing with mock analysis...")
     
     return adata
 
@@ -194,8 +218,11 @@ def main():
         return
     
     # Run LIANA analysis
+    print(f"LIANA_AVAILABLE: {LIANA_AVAILABLE}")
     if LIANA_AVAILABLE:
         comm_adata = run_liana_analysis(comm_adata)
+    else:
+        print("Skipping LIANA analysis due to import failure")
     
     # Analyze communication patterns
     analyze_communication_patterns(comm_adata, results_path)
