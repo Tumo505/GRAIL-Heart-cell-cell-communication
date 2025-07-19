@@ -24,20 +24,6 @@ data/processed/
 *.bigwig
 *.bw
 
-# Results and intermediate output
-results/
-results/figures/
-results/tables/
-results/*.csv
-results/*.tsv
-results/*.txt
-results/*.json
-results/
-results/communication/
-results/comprehensive_multi_chamber/
-results/cross_chamber_scaled/
-results/full_multi_chamber/
-results/multi_chamber/
 
 # Generated figures and plots
 *.png
