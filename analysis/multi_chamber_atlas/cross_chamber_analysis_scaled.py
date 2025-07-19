@@ -81,27 +81,40 @@ for i, chamber1 in enumerate(chambers):
             # Create combined dataset
             combined_adata = adata[chamber1_cells | chamber2_cells].copy()
             
-            # Calculate expression differences
+            # Add a binary group annotation
+            combined_adata.obs['chamber_group'] = combined_adata.obs['chamber'] == chamber1
+            combined_adata.obs['chamber_group'] = combined_adata.obs['chamber_group'].astype(str)
+            
+            # Run Wilcoxon test
+            sc.tl.rank_genes_groups(combined_adata, groupby='chamber_group', method='wilcoxon')
+            
+            # Get results for chamber1 vs chamber2
+            markers = sc.get.rank_genes_groups_df(combined_adata, group='True')
+            
+            # Count genes with adjusted p-value < 0.05
+            num_significant = (markers['pvals_adj'] < 0.05).sum()
+            
+            # Calculate mean expression for each chamber in the pair
             chamber1_expr = combined_adata[combined_adata.obs['chamber'] == chamber1].X.mean(axis=0)
             chamber2_expr = combined_adata[combined_adata.obs['chamber'] == chamber2].X.mean(axis=0)
-            
             if hasattr(chamber1_expr, 'A1'):
                 chamber1_expr = chamber1_expr.A1
                 chamber2_expr = chamber2_expr.A1
-            
-            # Calculate expression differences
-            expr_diff = chamber1_expr - chamber2_expr
-            
-            # Find genes with significant differences
-            significant_genes = np.abs(expr_diff) > np.percentile(np.abs(expr_diff), 95)
-            significant_gene_names = combined_adata.var_names[significant_genes]
-            
+            expression_difference = chamber1_expr - chamber2_expr
+            expression_correlation = np.corrcoef(chamber1_expr, chamber2_expr)[0,1]
+            print(f"Number of significant genes: {num_significant}")
+            print(f"Expression correlation: {expression_correlation:.3f}")
+
+            # For top differentially expressed genes, use the markers DataFrame
             cross_chamber_results[f"{chamber1}_vs_{chamber2}"] = {
-                'expression_correlation': np.corrcoef(chamber1_expr, chamber2_expr)[0,1],
-                'significant_genes': significant_gene_names,
-                'expression_difference': expr_diff,
+                'num_significant': num_significant,
+                'markers': markers,
+                'expression_correlation': expression_correlation,
                 'chamber1_expr': chamber1_expr,
-                'chamber2_expr': chamber2_expr
+                'chamber2_expr': chamber2_expr,
+                'expression_difference': expression_difference,
+                # Optionally, for compatibility:
+                'significant_genes': markers.loc[markers['pvals_adj'] < 0.05, 'names'].values
             }
 
 # Create cross-chamber comparison plots
@@ -132,14 +145,22 @@ plt.close()
 # 2. Number of significant genes between chambers
 significant_genes_count = {}
 for key, results in cross_chamber_results.items():
-    significant_genes_count[key] = len(results['significant_genes'])
+    significant_genes_count[key] = results['num_significant']
 
 plt.figure(figsize=(12, 6))
-plt.bar(significant_genes_count.keys(), significant_genes_count.values())
+bars = plt.bar(significant_genes_count.keys(), significant_genes_count.values())
 plt.title('Number of Significantly Different Genes Between Chambers')
 plt.xlabel('Chamber Pair')
-plt.ylabel('Number of Genes')
+plt.ylabel('Number of Genes (adj. p < 0.05)')
 plt.xticks(rotation=45)
+# Add annotations on top of each bar
+for bar in bars:
+    height = bar.get_height()
+    plt.annotate(f'Genes: {int(height)} \n (adj. p < 0.05)',
+                 xy=(bar.get_x() + bar.get_width() / 2, height),
+                 xytext=(0, 3),  # 3 points vertical offset
+                 textcoords="offset points",
+                 ha='center', va='bottom', fontsize=10, fontweight='bold')
 plt.tight_layout()
 plt.savefig(results_path / "significant_genes_by_chamber_pair.png", dpi=300, bbox_inches='tight')
 plt.close()
@@ -159,7 +180,7 @@ for key, results in cross_chamber_results.items():
     axes[0,0].set_title(f'Expression Correlation: {chamber1} vs {chamber2}')
     
     # Expression difference distribution
-    axes[0,1].hist(results['expression_difference'], bins=50, alpha=0.7)
+    axes[0,1].hist(results['expression_difference'], bins=50, alpha=0.7, rwidth=0.85)
     axes[0,1].set_xlabel('Expression Difference')
     axes[0,1].set_ylabel('Number of Genes')
     axes[0,1].set_title(f'Expression Difference Distribution')
@@ -193,7 +214,7 @@ for key, results in cross_chamber_results.items():
         chamber2: chamber2_pct
     }).fillna(0)
     
-    comparison_df.plot(kind='bar', ax=axes[1,1])
+    comparison_df.plot(kind='bar', ax=axes[1,1], width=0.7)
     axes[1,1].set_title(f'Cell Type Composition Comparison')
     axes[1,1].set_xlabel('Cell Type')
     axes[1,1].set_ylabel('Percentage')

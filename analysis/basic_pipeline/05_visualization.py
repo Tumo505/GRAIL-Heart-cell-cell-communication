@@ -23,24 +23,39 @@ def create_summary_plots(adata, save_path):
     
     # Gene expression distribution
     total_counts = adata.obs['total_counts']
-    axes[0,1].hist(total_counts, bins=50, alpha=0.7)
-    axes[0,1].set_xlabel('Total Counts')
+    n, bins, patches = axes[0,1].hist(total_counts, bins=50, alpha=0.7, rwidth=0.85, color='steelblue')
+    axes[0,1].set_xlabel('Total Counts (UMIs per cell)')
     axes[0,1].set_ylabel('Number of Cells')
     axes[0,1].set_title('Gene Expression Distribution')
-    
+    axes[0,1].text(0.98, 0.95, 'Total Cells: {}'.format(adata.n_obs),
+                ha='right', va='top', transform=axes[0,1].transAxes, fontsize=9, color='gray')
+    xticks = bins[::5]  # every 5th bin edge, adjust as needed
+    axes[0,1].set_xticks(xticks)
+    axes[0,1].set_xticklabels([f'{int(x)}' for x in xticks], rotation=45)
+
     # Mitochondrial gene percentage
     mt_counts = adata.obs['pct_counts_mt']
-    axes[1,0].hist(mt_counts, bins=50, alpha=0.7, color='orange')
-    axes[1,0].set_xlabel('Mitochondrial Gene %')
+    n, bins, patches = axes[1,0].hist(mt_counts, bins=50, alpha=0.7, color='orange', rwidth=0.85)
+    axes[1,0].set_xlabel('Mitochondrial Gene % (per cell)')
     axes[1,0].set_ylabel('Number of Cells')
     axes[1,0].set_title('Mitochondrial Gene Expression')
-    
+    axes[1,0].text(0.98, 0.95, 'Mitochondrial %: {:.2f}%'.format(mt_counts.mean()), 
+            ha='right', va='top', transform=axes[1,0].transAxes, fontsize=9, color='gray')
+    xticks = bins[::10]  # every 10th bin edge, adjust as needed
+    axes[1,0].set_xticks(xticks)
+    axes[1,0].set_xticklabels([f'{x:.2f}' for x in xticks], rotation=45)
+
     # Number of genes per cell
     n_genes = adata.obs['n_genes_by_counts']
-    axes[1,1].hist(n_genes, bins=50, alpha=0.7, color='green')
-    axes[1,1].set_xlabel('Number of Genes')
+    n, bins, patches = axes[1,1].hist(n_genes, bins=50, alpha=0.7, color='green', rwidth=0.85)
+    axes[1,1].set_xlabel('Number of Genes (per cell)')
     axes[1,1].set_ylabel('Number of Cells')
     axes[1,1].set_title('Genes per Cell')
+    axes[1,1].text(0.98, 0.95, 'Mean Genes: {:.0f}'.format(n_genes.mean()), 
+            ha='right', va='top', transform=axes[1,1].transAxes, fontsize=9, color='gray')
+    xticks = bins[::5]  # every 5th bin edge, adjust as needed
+    axes[1,1].set_xticks(xticks)
+    axes[1,1].set_xticklabels([f'{int(x)}' for x in xticks], rotation=45)
     
     plt.tight_layout()
     plt.savefig(save_path / "analysis_summary.png", dpi=300, bbox_inches='tight')
