@@ -67,6 +67,3 @@ HeartMAP (Heart Multi-chamber Analysis Platform) is a comprehensive framework fo
 - Validate markers and communication patterns with literature and experiments
 - Integrate spatial transcriptomics and disease data
 - Develop chamber-specific clinical applications
-
----
-**Status:** Complete and Publication Ready (July 19, 2024)

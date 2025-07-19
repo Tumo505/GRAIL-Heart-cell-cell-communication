@@ -104,13 +104,6 @@ Each chamber exhibits unique gene expression patterns:
 2. **Temporal Analysis**: Longitudinal studies of communication changes
 3. **Multi-Omics Integration**: Combine with proteomics and metabolomics
 
-## 📄 **Publication Status**
-
-### **Manuscript**
-- **Title**: "HeartMAP: A Multi-Chamber Spatial Framework for Cardiac Cell-Cell Communication"
-- **Status**: Complete and publication-ready
-- **Length**: Comprehensive manuscript with extensive discussion
-- **Figures**: Publication-ready visualizations included
 
 ### **Data Availability**
 - **Repository**: All scripts and results available in HeartMAP repository
@@ -140,7 +133,5 @@ Each chamber exhibits unique gene expression patterns:
 
 ---
 
-**Project**: HeartMAP  
-**Status**: ✅ Complete and Publication Ready  
+**Project**: HeartMAP 
 **Impact**: 🫀 Revolutionary Multi-Chamber Cardiac Biology Understanding  
-**Date**: July 19, 2024
