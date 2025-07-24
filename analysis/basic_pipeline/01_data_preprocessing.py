@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
-
+import subprocess
 # Set up scanpy
 sc.settings.verbosity = 3
 sc.set_figure_params(dpi=80, facecolor='white')
@@ -60,14 +60,34 @@ def calculate_qc_metrics(adata):
     
     return adata
 
+#ensure data integrity before processing
+def verify_data_integrity(data_dir, checksum_file):
+    """Verify data integrity using SHA-256 checksums."""
+    print("Verifying data integrity...")
+    script_path = Path(__file__).parent.parent.parent / "utils/sha256_checksum.py"
+    result = subprocess.run(
+        ["python", script_path, "verify", data_dir, checksum_file],
+        capture_output=True,
+        text=True
+    )
+    print(result.stdout)
+    if result.returncode != 0:
+        print(result.stderr)
+        raise RuntimeError("Data integrity verification failed. Please check the checksums.")
+
 def main():
     # Paths - use project root as reference
     project_root = Path(__file__).parent.parent.parent
-    data_path = project_root / "data/raw/healthy_human_4chamber_map_unnormalized_V3.h5ad"
+    data_dir = project_root / "data/raw"
+    checksum_file = project_root / "data/raw/checksums.txt"
     output_path = project_root / "data/processed/"
     output_path.mkdir(parents=True, exist_ok=True)
+
+    # Verify data integrity
+    verify_data_integrity(data_dir, checksum_file)
     
     # Load data
+    data_path = project_root / "data/raw/healthy_human_4chamber_map_unnormalized_V3.h5ad"
     adata = load_and_preprocess_data(data_path)
     
     # Basic filtering
