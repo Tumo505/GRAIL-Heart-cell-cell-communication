@@ -57,6 +57,83 @@ HeartMAP/
 - Chamber-specific drug targets may be more effective
 - Chamber-specific analysis may reveal disease mechanisms
 
+## 🔒 Data Integrity
+
+### SHA-256 Checksums
+To ensure the integrity of raw data files, the HeartMAP project uses **SHA-256 checksums**. This guarantees that the raw data files have not been modified or corrupted during storage or transfer.
+
+### Where SHA-256 is Used:
+1. **Raw Data Verification**:
+   - Before preprocessing, the pipeline verifies the integrity of raw data files in the `data/raw/` directory using a `checksums.txt` file.
+   - Example:
+     ```bash
+     python utils/sha256_checksum.py verify data/raw data/raw/checksums.txt
+     ```
+
+2. **Checksum Generation**:
+   - SHA-256 checksums are generated for all raw data files and stored in `checksums.txt`.
+   - Example:
+     ```bash
+     python utils/sha256_checksum.py generate data/raw data/raw/checksums.txt
+     ```
+
+### Why SHA-256?
+Using SHA-256 ensures:
+- Data integrity during storage and transfer.
+- Detection of accidental or malicious modifications to raw data files.
+- Reproducibility by verifying that the same raw data is used across different runs.
+
+## 🔄 Reproducibility
+
+The HeartMAP project ensures reproducibility in all stochastic processes by using fixed random seeds. This guarantees consistent results across different runs of the pipeline. Below are the key areas where random seeds are applied:
+
+1. **Random Sampling**:
+   - Fixed seed (`seed = 42`) is used for randomly sampling cells during data scaling and preprocessing.
+   - Example:
+     ```python
+     np.random.seed(42)
+     cell_indices = np.random.choice(adata.n_obs, size=50000, replace=False)
+     ```
+
+2. **Mock Data Generation**:
+   - Fixed seed is used to generate mock communication interactions for testing and visualization.
+   - Example:
+     ```python
+     np.random.seed(42)
+     mock_interactions = pd.DataFrame({
+         'source': np.random.choice(cell_types.index, n_interactions),
+         'target': np.random.choice(cell_types.index, n_interactions),
+         'score': np.random.uniform(0, 1, n_interactions)
+     })
+     ```
+
+3. **Clustering**:
+   - Fixed seed (`random_state=42`) is used for K-means clustering as a fallback when Leiden clustering is unavailable.
+   - Example:
+     ```python
+     kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+     ```
+
+4. **LIANA Analysis**:
+   - Fixed seed is passed to the LIANA analysis function for reproducibility in ligand-receptor interaction analysis.
+   - Example:
+     ```python
+     li.mt.rank_aggregate.by_sample(
+         adata,
+         groupby=cell_type_col,
+         resource_name='consensus',
+         n_perms=100,
+         seed=42,
+         verbose=True
+     )
+     ```
+
+### Why Fixed Seeds?
+Using fixed random seeds ensures:
+- Consistent results across different runs of the pipeline.
+- Easier debugging and validation of results.
+- Reproducibility for scientific publications and collaborative workflows.
+
 ## 🚀 Next Steps
 
 1. Validate markers and communication patterns with literature and experiments
