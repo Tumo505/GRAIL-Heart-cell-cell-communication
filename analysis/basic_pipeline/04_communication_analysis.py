@@ -5,6 +5,16 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 import warnings
+from scipy.stats import norm
+
+import sys
+from pathlib import Path
+
+# Add the project root to the Python path
+project_root = Path(__file__).parent.parent.parent
+sys.path.append(str(project_root))
+
+from utils.statistical_tests import van_elteren_test
 warnings.filterwarnings('ignore')
 
 # import cell communication tools
@@ -200,6 +210,44 @@ def analyze_ligand_receptor_pairs(adata, save_path):
         
         # Save expression data
         expr_by_celltype.to_csv(save_path / "ligand_receptor_expression.csv")
+
+# implement statistical tests for communication analysis
+def perform_statistical_test(data, group, strata=None, method="wilcoxon"):
+    """
+    Perform statistical tests (Wilcoxon or Van Elteren).
+    
+    Parameters:
+        data (array-like): The data values.
+        group (array-like): Group labels (e.g., 0 or 1 for two groups).
+        strata (array-like, optional): Stratification labels for Van Elteren test.
+        method (str): Statistical test method ("wilcoxon" or "van_elteren").
+    
+    Returns:
+        float: Test statistic.
+        float: p-value.
+    """
+    if method == "wilcoxon":
+        from scipy.stats import ranksums
+        return ranksums(data[group == 1], data[group == 0])
+    elif method == "van_elteren":
+        if strata is None:
+            raise ValueError("Strata must be provided for Van Elteren test.")
+        return van_elteren_test(data, group, strata)
+    else:
+        raise ValueError(f"Unknown method: {method}")
+
+# Example data
+data = np.array([1.2, 2.3, 1.8, 2.5, 3.1, 2.9, 1.7, 2.8])
+group = np.array([0, 0, 1, 1, 0, 0, 1, 1])  # Two groups: 0 and 1
+strata = np.array([1, 1, 1, 1, 2, 2, 2, 2])  # Two strata: 1 and 2
+
+# Perform Wilcoxon rank-sum test
+stat, p_value = perform_statistical_test(data, group, method="wilcoxon")
+print(f"Wilcoxon Test: Statistic={stat}, p-value={p_value}")
+
+# Perform Van Elteren test
+stat, p_value = perform_statistical_test(data, group, strata=strata, method="van_elteren")
+print(f"Van Elteren Test: Statistic={stat}, p-value={p_value}")
 
 def main():
     # Load annotated data
