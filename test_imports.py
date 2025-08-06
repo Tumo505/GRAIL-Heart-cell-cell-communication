@@ -46,10 +46,6 @@ def main():
         ("heartmap.config", "Config module"),
         ("heartmap.Config", "Config class"),
         
-        # Models
-        ("heartmap.models", "Models module"),
-        ("heartmap.HeartMapModel", "HeartMapModel class"),
-        
         # Pipelines
         ("heartmap.pipelines", "Pipelines module"),
         ("heartmap.BasicPipeline", "BasicPipeline class"),

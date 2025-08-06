@@ -53,7 +53,7 @@ class PathConfig:
     processed_data_dir: str = "data/processed"
     results_dir: str = "results"
     figures_dir: str = "figures"
-    models_dir: str = "models"
+    #models_dir: str = "models"
     
     
 @dataclass
@@ -125,7 +125,7 @@ class Config:
         self.paths.processed_data_dir = str(base_path / "data" / "processed")
         self.paths.results_dir = str(base_path / "results")
         self.paths.figures_dir = str(base_path / "figures")
-        self.paths.models_dir = str(base_path / "models")
+        #self.paths.models_dir = str(base_path / "models")
     
     def create_directories(self) -> None:
         """Create all configured directories"""
@@ -135,7 +135,7 @@ class Config:
             self.paths.processed_data_dir,
             self.paths.results_dir,
             self.paths.figures_dir,
-            self.paths.models_dir
+            #self.paths.models_dir
         ]
         
         for dir_path in dirs_to_create:
