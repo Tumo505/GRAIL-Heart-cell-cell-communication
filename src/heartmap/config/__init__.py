@@ -3,7 +3,7 @@ Configuration management for HeartMAP
 """
 
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Union
 import yaml
 import json
 from dataclasses import dataclass, asdict
@@ -141,7 +141,7 @@ class Config:
             Path(dir_path).mkdir(parents=True, exist_ok=True)
 
 
-def load_config(config_path: Optional[str] = None) -> Config:
+def load_config(config_path: Optional[Union[str, Path]] = None) -> Config:
     """Load configuration from file or return default"""
     if config_path is None:
         return Config.default()

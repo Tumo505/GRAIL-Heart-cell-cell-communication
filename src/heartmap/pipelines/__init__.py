@@ -30,7 +30,7 @@ class BasePipeline(ABC):
         self.data_processor = DataProcessor(config)
         self.visualizer = Visualizer(config)
         self.exporter = ResultsExporter(config)
-        self.results = {}
+        self.results: Dict[str, Any] = {}
 
     @abstractmethod
     def run(self, data_path: str, output_dir: Optional[str] = None) -> Dict[str, Any]:
@@ -190,7 +190,7 @@ class MultiChamberPipeline(BasePipeline):
         print("2. Analyzing multi-chamber patterns...")
 
         # Create placeholder results
-        chamber_markers = {}
+        chamber_markers: Dict[str, Any] = {}
         cross_chamber_correlations = pd.DataFrame()
 
         results = {

@@ -19,7 +19,7 @@ except ImportError:
     warnings.warn("FastAPI not available. Install with: pip install fastapi uvicorn")
 
     # Create a dummy BaseModel for when FastAPI/Pydantic is not available
-    class PydanticBaseModel:
+    class PydanticBaseModel:  # type: ignore
         def __init__(self, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
@@ -193,7 +193,8 @@ class HeartMapAPI:
         if not FASTAPI_AVAILABLE:
             raise ImportError("FastAPI not available. Install with: pip install fastapi uvicorn")
 
-        uvicorn.run(self.app, host=host, port=port, debug=debug)
+        if self.app is not None:
+            uvicorn.run(self.app, host=host, port=port, log_level="debug" if debug else "info")
 
 
 class CLIInterface:
@@ -213,7 +214,7 @@ class CLIInterface:
         self.config = load_config(config_path)
 
         # Update output directory
-        self.config.update_paths(Path(output_dir).parent)
+        self.config.update_paths(str(Path(output_dir).parent))
         self.config.create_directories()
 
         # Get pipeline

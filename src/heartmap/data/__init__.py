@@ -5,7 +5,7 @@ Data processing utilities for HeartMAP
 import os
 import hashlib
 from pathlib import Path
-from typing import Tuple, List
+from typing import Tuple, List, Union
 import warnings
 
 import scanpy as sc
@@ -61,7 +61,9 @@ class DataLoader:
     def __init__(self, config: Config):
         self.config = config
 
-    def load_raw_data(self, file_path: str, verify_integrity: bool = True) -> ad.AnnData:
+    def load_raw_data(
+        self, file_path: Union[str, Path], verify_integrity: bool = True
+    ) -> ad.AnnData:
         """Load raw single-cell data"""
         file_path = Path(file_path)
 

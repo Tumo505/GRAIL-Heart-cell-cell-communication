@@ -4,7 +4,7 @@ Utility functions and classes for HeartMAP
 
 import hashlib
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Union
 import warnings
 
 try:
@@ -308,7 +308,7 @@ class ChecksumValidator:
         return actual_checksum == expected_checksum
 
     @staticmethod
-    def generate_checksums(directory: str, output_file: str) -> None:
+    def generate_checksums(directory: Union[str, Path], output_file: str) -> None:
         """Generate checksums for all files in directory"""
         directory = Path(directory)
         checksums = {}
@@ -321,8 +321,8 @@ class ChecksumValidator:
 
         # Save checksums
         with open(output_file, 'w') as f:
-            for file_path, checksum in checksums.items():
-                f.write(f"{checksum}  {file_path}\n")
+            for rel_path_str, checksum in checksums.items():
+                f.write(f"{checksum}  {rel_path_str}\n")
 
 
 def setup_logging(level: str = "INFO") -> None:
