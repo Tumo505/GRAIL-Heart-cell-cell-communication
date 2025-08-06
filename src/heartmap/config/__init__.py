@@ -2,9 +2,8 @@
 Configuration management for HeartMAP
 """
 
-import os
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 import yaml
 import json
 from dataclasses import dataclass, asdict
@@ -53,9 +52,9 @@ class PathConfig:
     processed_data_dir: str = "data/processed"
     results_dir: str = "results"
     figures_dir: str = "figures"
-    #models_dir: str = "models"
-    
-    
+    # models_dir: str = "models"
+
+
 @dataclass
 class Config:
     """Main configuration class"""
@@ -63,7 +62,7 @@ class Config:
     analysis: AnalysisConfig
     model: ModelConfig
     paths: PathConfig
-    
+
     @classmethod
     def from_dict(cls, config_dict: Dict[str, Any]) -> 'Config':
         """Create config from dictionary"""
@@ -73,21 +72,21 @@ class Config:
             model=ModelConfig(**config_dict.get('model', {})),
             paths=PathConfig(**config_dict.get('paths', {}))
         )
-    
+
     @classmethod
     def from_yaml(cls, yaml_path: str) -> 'Config':
         """Load config from YAML file"""
         with open(yaml_path, 'r') as f:
             config_dict = yaml.safe_load(f)
         return cls.from_dict(config_dict)
-    
+
     @classmethod
     def from_json(cls, json_path: str) -> 'Config':
         """Load config from JSON file"""
         with open(json_path, 'r') as f:
             config_dict = json.load(f)
         return cls.from_dict(config_dict)
-    
+
     @classmethod
     def default(cls) -> 'Config':
         """Create default configuration"""
@@ -97,26 +96,26 @@ class Config:
             model=ModelConfig(),
             paths=PathConfig()
         )
-    
+
     @classmethod
     def from_file(cls, file_path: str) -> 'Config':
         """Load config from file (YAML or JSON)"""
         return load_config(file_path)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert config to dictionary"""
         return asdict(self)
-    
+
     def save_yaml(self, yaml_path: str) -> None:
         """Save config to YAML file"""
         with open(yaml_path, 'w') as f:
             yaml.dump(self.to_dict(), f, default_flow_style=False)
-    
+
     def save_json(self, json_path: str) -> None:
         """Save config to JSON file"""
         with open(json_path, 'w') as f:
             json.dump(self.to_dict(), f, indent=2)
-    
+
     def update_paths(self, base_dir: str) -> None:
         """Update all paths relative to base directory"""
         base_path = Path(base_dir)
@@ -125,8 +124,8 @@ class Config:
         self.paths.processed_data_dir = str(base_path / "data" / "processed")
         self.paths.results_dir = str(base_path / "results")
         self.paths.figures_dir = str(base_path / "figures")
-        #self.paths.models_dir = str(base_path / "models")
-    
+        # self.paths.models_dir = str(base_path / "models")
+
     def create_directories(self) -> None:
         """Create all configured directories"""
         dirs_to_create = [
@@ -135,9 +134,9 @@ class Config:
             self.paths.processed_data_dir,
             self.paths.results_dir,
             self.paths.figures_dir,
-            #self.paths.models_dir
+            # self.paths.models_dir
         ]
-        
+
         for dir_path in dirs_to_create:
             Path(dir_path).mkdir(parents=True, exist_ok=True)
 
@@ -146,7 +145,7 @@ def load_config(config_path: Optional[str] = None) -> Config:
     """Load configuration from file or return default"""
     if config_path is None:
         return Config.default()
-    
+
     config_path = Path(config_path)
     if config_path.suffix.lower() in ['.yml', '.yaml']:
         return Config.from_yaml(str(config_path))
@@ -159,7 +158,7 @@ def load_config(config_path: Optional[str] = None) -> Config:
 # Export configuration classes
 __all__ = [
     'DataConfig',
-    'AnalysisConfig', 
+    'AnalysisConfig',
     'ModelConfig',
     'PathConfig',
     'Config',
