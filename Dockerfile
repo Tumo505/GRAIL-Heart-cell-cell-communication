@@ -26,7 +26,7 @@ ENV PYTHONPATH=/app
 ENV HEARTMAP_DATA_DIR=/app/data
 
 # Run the application
-CMD ["uvicorn", "api_server:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "api_server.py"]
 
 # Expose port for API
 EXPOSE 8000
