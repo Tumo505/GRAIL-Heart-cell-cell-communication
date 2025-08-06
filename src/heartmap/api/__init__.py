@@ -14,25 +14,30 @@ from ..models import HeartMapModel
 try:
     from fastapi import FastAPI, UploadFile, File, HTTPException
     from fastapi.responses import FileResponse, JSONResponse
-    from pydantic import BaseModel
+    from pydantic import BaseModel as PydanticBaseModel
     import uvicorn
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
     warnings.warn("FastAPI not available. Install with: pip install fastapi uvicorn")
+    # Create a dummy BaseModel for when FastAPI/Pydantic is not available
+    class PydanticBaseModel:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
 
 from ..models import HeartMapModel
 from ..pipelines import ComprehensivePipeline, BasicPipeline, AdvancedCommunicationPipeline, MultiChamberPipeline
 
 
-class AnalysisRequest(BaseModel):
+class AnalysisRequest(PydanticBaseModel):
     """Request model for analysis"""
     analysis_type: str = "comprehensive"  # basic, advanced, multi_chamber, comprehensive
     config_overrides: Optional[Dict[str, Any]] = None
     output_format: str = "json"  # json, csv, h5ad
 
 
-class AnalysisResponse(BaseModel):
+class AnalysisResponse(PydanticBaseModel):
     """Response model for analysis"""
     status: str
     message: str
@@ -257,3 +262,13 @@ def run_cli():
         output_dir=args.output_dir,
         config_path=args.config
     )
+
+
+# Export API classes and functions
+__all__ = [
+    'AnalysisRequest',
+    'AnalysisResponse', 
+    'HeartMapAPI',
+    'CLIInterface',
+    'main'
+]

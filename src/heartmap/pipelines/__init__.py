@@ -281,3 +281,13 @@ class ComprehensivePipeline(BasePipeline):
         
         print("Comprehensive HeartMAP pipeline completed!")
         return self.results
+
+
+# Export all pipeline classes
+__all__ = [
+    'BasePipeline',
+    'BasicPipeline',
+    'AdvancedCommunicationPipeline', 
+    'MultiChamberPipeline',
+    'ComprehensivePipeline'
+]

@@ -154,3 +154,14 @@ def load_config(config_path: Optional[str] = None) -> Config:
         return Config.from_json(str(config_path))
     else:
         raise ValueError(f"Unsupported config file format: {config_path.suffix}")
+
+
+# Export configuration classes
+__all__ = [
+    'DataConfig',
+    'AnalysisConfig', 
+    'ModelConfig',
+    'PathConfig',
+    'Config',
+    'load_config'
+]

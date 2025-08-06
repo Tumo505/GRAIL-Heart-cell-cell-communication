@@ -348,3 +348,13 @@ def create_logger(name: str):
     """Create a logger with the given name"""
     import logging
     return logging.getLogger(name)
+
+
+# Export utility classes and functions
+__all__ = [
+    'Visualizer',
+    'ResultsExporter',
+    'ChecksumValidator',
+    'setup_logging',
+    'create_logger'
+]

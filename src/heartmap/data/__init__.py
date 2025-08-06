@@ -248,3 +248,11 @@ class DataProcessor:
         cell_indices = np.random.choice(adata.n_obs, size=n_cells, replace=False)
         
         return adata[cell_indices].copy()
+
+
+# Export data processing classes
+__all__ = [
+    'DataValidator',
+    'DataLoader',
+    'DataProcessor'
+]
