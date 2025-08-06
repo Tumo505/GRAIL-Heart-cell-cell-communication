@@ -1,6 +1,8 @@
 # Raw and processed data directories
 data/raw/
 data/processed/
+data/intermediate/
+data/cache/
 
 # Large data files (single-cell, genomics, etc.)
 *.h5ad
@@ -24,6 +26,23 @@ data/processed/
 *.bigwig
 *.bw
 
+# Model files and checkpoints
+models/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+
+# ===================
+# RESULTS & OUTPUT
+# ===================
+
+# Results directories
+results/
+outputs/
+figures/
+plots/
 
 # Generated figures and plots
 *.png
@@ -44,9 +63,9 @@ data/processed/
 *.rds
 *.RData
 
-# Jupyter notebook checkpoints
-.ipynb_checkpoints/
-*/.ipynb_checkpoints/*
+# ===================
+# PYTHON & PACKAGE
+# ===================
 
 # Python cache and compiled files
 __pycache__/
@@ -76,6 +95,10 @@ MANIFEST
 *.manifest
 *.spec
 
+# ===================
+# TESTING & COVERAGE
+# ===================
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -90,6 +113,13 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ===================
+# ENVIRONMENTS
+# ===================
 
 # Virtual environments
 .env
@@ -97,16 +127,64 @@ cover/
 venv/
 ENV/
 env/
-ENV/
+heartmap_env/
 env.bak/
 venv.bak/
 
 # Conda environments
 .conda/
+environment.lock
 
-# pip
-pip-log.txt
-pip-delete-this-directory.txt
+# Environment variables
+.env.local
+.env.development
+.env.test
+.env.production
+
+# ===================
+# CONFIGURATION
+# ===================
+
+# User-specific configuration files
+my_config.yaml
+my_config.json
+notebook_config.yaml
+local_config.yaml
+user_config.yaml
+production_config.yaml
+test_config.yaml
+
+# Temporary configuration files
+*_temp.yaml
+*_backup.yaml
+config_*.yaml
+!config.yaml  # Keep default config
+
+# Configuration files with sensitive information
+secrets.yaml
+secrets.json
+*.key
+*.pem
+*.p12
+*.pfx
+.secrets
+
+# ===================
+# JUPYTER & NOTEBOOKS
+# ===================
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Jupyter notebook outputs (keep clean notebooks in git)
+*.ipynb
+!notebooks/quickstart_example.ipynb  # Keep tutorial notebook
+!notebooks/README.ipynb
+
+# ===================
+# IDE & EDITORS
+# ===================
 
 # IDE/project files
 .idea/
@@ -137,6 +215,10 @@ pip-delete-this-directory.txt
 auto-save-list
 tramp
 .\#*
+
+# ===================
+# OPERATING SYSTEMS
+# ===================
 
 # macOS
 .DS_Store
@@ -180,11 +262,76 @@ $RECYCLE.BIN/
 .Trash-*
 .nfs*
 
+# ===================
+# LOGS & MONITORING
+# ===================
+
 # Log files
 *.log
 *.log.*
 logs/
 log/
+heartmap.log
+api.log
+error.log
+debug.log
+
+# ===================
+# DEPLOYMENT
+# ===================
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+.docker/
+
+# Kubernetes
+k8s/secrets/
+*.kubeconfig
+
+# Cloud deployment
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Heroku
+.env.heroku
+
+# ===================
+# ANALYSIS CACHE
+# ===================
+
+# Analysis cache and temporary files
+analysis/*/cache/
+analysis/*/temp/
+cache/
+temp/
+tmp/
+.scanpy/
+.cache/
+
+# Workflow temporary files
+snakemake/
+.snakemake/
+workflow/temp/
+
+# ===================
+# DOCUMENTATION
+# ===================
+
+# Generated documentation
+docs/_build/
+docs/build/
+site/
+
+# Sphinx
+docs/_build
+docs/_static/generated
+
+# ===================
+# R LANGUAGE
+# ===================
 
 # R specific files
 .Rhistory
@@ -195,31 +342,93 @@ log/
 .Renviron
 .Rproj.user/
 
+# ===================
+# ARCHIVES & LARGE FILES
+# ===================
+
 # Large files that might be generated
 *.zip
 *.tar.gz
 *.tar.bz2
 *.rar
 *.7z
+*.gz
+*.bz2
 
-# Configuration files with sensitive information
-config.ini
-secrets.json
-*.key
-*.pem
-*.p12
-*.pfx
+# Archive directory
+Archive.zip
+archives/
 
-# Analysis cache
-analysis/*/cache/
-analysis/*/temp/
+# ===================
+# HEARTMAP SPECIFIC
+# ===================
 
-# Generated documentation
-docs/_build/
-docs/build/
-# End of notebook and script output
+# HeartMAP generated files
+comprehensive_tutorial_results.png
+demo_results.png
+notebook_config.yaml
+
+# Migration artifacts
+scripts/legacy/
+migration_report.md
+
+# Generated example outputs
+examples/output/
+examples/results/
+examples/example_config.yaml
+examples/example_config.json
+
+# API artifacts
+api_logs/
+.fastapi_cache/
+
+# Hugging Face artifacts
+.huggingface/
+hf_cache/
+huggingface_deployment/
+huggingface_files/
+
+# Python package build artifacts in huggingface_files
+huggingface_files/src/heartmap.egg-info/
+huggingface_files/src/heartmap/**/__pycache__/
+
+# ===================
+# MISCELLANEOUS
+# ===================
+
+# Temporary files
 *.out
+*.tmp
+*_temp.*
+*_backup.*
 
-# Miscellaneous
-*.DS_Store
-# End of Selection
+# Lock files
+*.lock
+Pipfile.lock
+poetry.lock
+
+# Node.js (if using for any frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===================
+# KEEP IMPORTANT FILES
+# ===================
+
+# Important files to keep (override previous patterns)
+!README.md
+!COMPREHENSIVE_RESULTS_SUMMARY.md
+!PAPER_SUMMARY.md
+!requirements.txt
+!requirements-dev.txt
+!setup.py
+!pyproject.toml
+!Dockerfile
+!docker-compose.yml
+!app.py
+!config.yaml
+!LICENSE
+!NOTICE
+!CITATION.cff
