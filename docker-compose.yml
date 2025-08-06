@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  heartmap-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+      - ./config.yaml:/app/config.yaml
+    environment:
+      - HEARTMAP_CONFIG=/app/config.yaml
+    command: python scripts/run_api_server.py
+
+  heartmap-worker:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+    environment:
+      - HEARTMAP_CONFIG=/app/config.yaml
+    command: python scripts/run_examples.py

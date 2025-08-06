@@ -1,0 +1,35 @@
+# Default HeartMAP Configuration
+
+data:
+  min_genes: 200
+  min_cells: 3
+  max_cells_subset: null  # Set to limit memory usage, e.g., 50000
+  max_genes_subset: null  # Set to limit memory usage, e.g., 5000
+  target_sum: 10000.0
+  n_top_genes: 2000
+  random_seed: 42
+  test_mode: false
+
+analysis:
+  n_components_pca: 50
+  n_neighbors: 10
+  n_pcs: 40
+  resolution: 0.5
+  n_marker_genes: 25
+  use_leiden: true
+  use_liana: true
+
+model:
+  model_type: "comprehensive"
+  save_intermediate: true
+  use_gpu: false
+  batch_size: null
+  max_memory_gb: null
+
+paths:
+  data_dir: "data"
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  results_dir: "results"
+  figures_dir: "figures"
+  models_dir: "models"
