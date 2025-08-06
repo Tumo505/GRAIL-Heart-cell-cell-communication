@@ -26,6 +26,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e .[dev]
     
+    - name: Verify installation
+      run: |
+        python -c "import heartmap; print('✅ HeartMAP package installed successfully')"
+        python -c "from heartmap.config import Config; print('✅ Config import works')"
+        python test_imports.py
+    
     - name: Run tests
       run: |
         python tests/test_heartmap.py
