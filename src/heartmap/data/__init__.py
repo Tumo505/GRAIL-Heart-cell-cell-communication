@@ -29,7 +29,8 @@ class DataValidator:
         return sha256_hash.hexdigest() == expected_checksum
 
     @staticmethod
-    def validate_anndata(adata: ad.AnnData, check_qc_metrics: bool = True) -> Tuple[bool, List[str]]:
+    def validate_anndata(adata: ad.AnnData,
+                         check_qc_metrics: bool = True) -> Tuple[bool, List[str]]:
         """Validate AnnData object structure"""
         issues = []
 
@@ -246,7 +247,7 @@ class DataProcessor:
 
         # Compute PCA for dimensionality reduction
         sc.tl.pca(adata, svd_solver='arpack')
-        
+
         # Compute neighborhood graph (required for clustering)
         sc.pp.neighbors(adata, n_neighbors=15, n_pcs=40)
 
