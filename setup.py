@@ -11,7 +11,7 @@ long_description = readme_path.read_text() if readme_path.exists() else ""
 
 # Read version
 version_path = Path(__file__).parent / "src" / "heartmap" / "__init__.py"
-version = "1.0.0"
+version = "1.1.0"
 if version_path.exists():
     with open(version_path) as f:
         for line in f:
