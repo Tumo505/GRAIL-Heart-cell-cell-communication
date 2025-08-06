@@ -25,7 +25,7 @@ except ImportError:
             for key, value in kwargs.items():
                 setattr(self, key, value)
 
-from ..pipelines import ComprehensivePipeline, BasicPipeline, AdvancedCommunicationPipeline, MultiChamberPipeline
+from ..pipelines import BasicPipeline, AdvancedCommunicationPipeline, MultiChamberPipeline
 
 
 class AnalysisRequest(PydanticBaseModel):
