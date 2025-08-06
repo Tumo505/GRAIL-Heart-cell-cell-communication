@@ -4,14 +4,20 @@ services:
   heartmap-api:
     build: .
     ports:
-      - "8000:8000"
-    volumes:
-      - ./data:/app/data
-      - ./results:/app/results
-      - ./config.yaml:/app/config.yaml
+      - "8001:8000"
     environment:
-      - HEARTMAP_CONFIG=/app/config.yaml
-    command: python scripts/run_api_server.py
+      - HEARTMAP_DATA_DIR=/app/data
+      - HEARTMAP_LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data:rw
+      - ./uploads:/app/uploads:rw
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   heartmap-worker:
     build: .
