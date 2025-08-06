@@ -9,7 +9,6 @@ import tempfile
 import json
 
 from ..config import Config, load_config
-#from ..models import HeartMapModel
 
 try:
     from fastapi import FastAPI, UploadFile, File, HTTPException
@@ -26,7 +25,6 @@ except ImportError:
             for key, value in kwargs.items():
                 setattr(self, key, value)
 
-#from ..models import HeartMapModel
 from ..pipelines import ComprehensivePipeline, BasicPipeline, AdvancedCommunicationPipeline, MultiChamberPipeline
 
 

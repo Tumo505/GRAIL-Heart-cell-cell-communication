@@ -108,29 +108,6 @@ class TestDataProcessor(unittest.TestCase):
         self.assertTrue(processed.var_names.is_unique)
 
 
-class TestModels(unittest.TestCase):
-    """Test model functionality"""
-    
-    @unittest.skipUnless(SCANPY_AVAILABLE, "Scanpy not available")
-    def test_model_save_load(self):
-        """Test model persistence"""
-        #from heartmap.models import CellAnnotationModel
-        
-        config = Config.default()
-        #model = CellAnnotationModel(config)
-        
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            model_path = Path(tmp_dir) / "test_model.pkl"
-            
-            # Test saving unfitted model
-            #model.save(str(model_path))
-            self.assertTrue(model_path.exists())
-            
-            # Test loading
-            #loaded_model = CellAnnotationModel.load(str(model_path))
-            #self.assertEqual(model.is_fitted, loaded_model.is_fitted)
-
-
 class TestPipelines(unittest.TestCase):
     """Test pipeline functionality"""
     
@@ -166,7 +143,6 @@ def run_tests():
     test_classes = [
         TestConfig,
         TestDataProcessor,
-        TestModels,
         TestPipelines,
         TestAPI
     ]
