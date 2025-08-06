@@ -22,7 +22,7 @@ if version_path.exists():
 setup(
     name="heartmap",
     version=version,
-    heartmap2025="Tumo Kgabeng, Thanyani Pandelani, Lulu Wang, Harry Ngwangwa",
+    author="Tumo Kgabeng, Lulu Wang, Harry Ngwangwa, Thanyani Pandelani",
     author_email="28346416@mylife.unisa.ac.za",
     description="Heart Multi-chamber Analysis Platform for single-cell RNA-seq",
     long_description=long_description,
@@ -56,6 +56,7 @@ setup(
         "networkx>=2.8.0",
         "tqdm",
         "statsmodels",
+        "pyyaml>=6.0",
     ],
     extras_require={
         "communication": [
