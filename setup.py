@@ -54,6 +54,8 @@ setup(
         "anndata>=0.8.0",
         "plotly>=5.0.0",
         "networkx>=2.8.0",
+        "python-igraph>=0.10.0",
+        "leidenalg>=0.8.0",
         "tqdm",
         "statsmodels",
         "pyyaml>=6.0",

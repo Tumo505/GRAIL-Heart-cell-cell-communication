@@ -273,5 +273,6 @@ __all__ = [
     'AnalysisResponse',
     'HeartMapAPI',
     'CLIInterface',
-    'main'
+    'create_api',
+    'run_cli'
 ]
