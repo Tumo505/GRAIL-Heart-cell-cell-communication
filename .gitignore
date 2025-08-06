@@ -53,6 +53,8 @@ plots/
 *.eps
 *.tiff
 *.bmp
+*.html
+*.htm
 
 # Analysis output files
 *.pkl
