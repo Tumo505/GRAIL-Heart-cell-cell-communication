@@ -626,23 +626,6 @@ heartmap-examples --download
 # - comprehensive_workflow.ipynb
 ```
 
-### Video Tutorials
-
-- **Getting Started**: [YouTube Tutorial](https://youtube.com/watch?v=example)
-- **Advanced Features**: [YouTube Tutorial](https://youtube.com/watch?v=example)
-- **Troubleshooting**: [YouTube Tutorial](https://youtube.com/watch?v=example)
-
-### Publications
-
-- **HeartMAP Paper**: [bioRxiv preprint](https://biorxiv.org/example)
-- **Methods Paper**: [Nature Methods](https://nature.com/example)
-
-### Community
-
-- **Discussions**: [GitHub Discussions](https://github.com/Tumo505/HeartMap/discussions)
-- **Twitter**: [@HeartMAP_tool](https://twitter.com/HeartMAP_tool)
-- **Slack**: [HeartMAP Community](https://heartmap.slack.com)
-
 ---
 
 ## 🎯 Next Steps
