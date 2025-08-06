@@ -29,7 +29,7 @@ class DataValidator:
         return sha256_hash.hexdigest() == expected_checksum
 
     @staticmethod
-    def validate_anndata(adata: ad.AnnData) -> Tuple[bool, List[str]]:
+    def validate_anndata(adata: ad.AnnData, check_qc_metrics: bool = True) -> Tuple[bool, List[str]]:
         """Validate AnnData object structure"""
         issues = []
 
@@ -38,11 +38,13 @@ class DataValidator:
         if adata.n_vars == 0:
             issues.append("No genes in dataset")
 
-        # Check for required obs columns
-        required_obs = ['n_genes', 'n_counts']
-        for col in required_obs:
-            if col not in adata.obs.columns:
-                issues.append(f"Missing required obs column: {col}")
+        # Check for QC metrics only if requested (after they should be calculated)
+        if check_qc_metrics:
+            # scanpy creates these standard QC metric columns
+            required_obs = ['n_genes_by_counts', 'total_counts']
+            for col in required_obs:
+                if col not in adata.obs.columns:
+                    issues.append(f"Missing required obs column: {col}")
 
         # Check for NaN/inf values
         if issparse(adata.X):
@@ -80,8 +82,8 @@ class DataLoader:
         else:
             raise ValueError(f"Unsupported file format: {file_path.suffix}")
 
-        # Validate data
-        is_valid, issues = DataValidator.validate_anndata(adata)
+        # Validate data (skip QC metrics check for raw data)
+        is_valid, issues = DataValidator.validate_anndata(adata, check_qc_metrics=False)
         if not is_valid:
             warnings.warn(f"Data validation issues: {'; '.join(issues)}")
 
@@ -211,6 +213,11 @@ class DataProcessor:
         # Calculate QC metrics
         adata = self.loader.calculate_qc_metrics(adata)
 
+        # Validate data with QC metrics
+        is_valid, issues = DataValidator.validate_anndata(adata, check_qc_metrics=True)
+        if not is_valid:
+            warnings.warn(f"Data validation issues after QC calculation: {'; '.join(issues)}")
+
         if save_intermediate:
             adata.write(os.path.join(
                 self.config.paths.processed_data_dir,
@@ -235,6 +242,18 @@ class DataProcessor:
             adata.write(os.path.join(
                 self.config.paths.processed_data_dir,
                 "normalized.h5ad"
+            ))
+
+        # Compute PCA for dimensionality reduction
+        sc.tl.pca(adata, svd_solver='arpack')
+        
+        # Compute neighborhood graph (required for clustering)
+        sc.pp.neighbors(adata, n_neighbors=15, n_pcs=40)
+
+        if save_intermediate:
+            adata.write(os.path.join(
+                self.config.paths.processed_data_dir,
+                "processed_with_neighbors.h5ad"
             ))
 
         return adata
